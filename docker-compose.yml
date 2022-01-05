@@ -1,0 +1,14 @@
+version: 0.0
+services:
+  h2-db:
+    image: oscarfonts/h2
+    environment:
+      - "H2_OPTIONS=-ifNotExists"
+    ports:
+      - "81:81"
+      - "1521:1521"
+    expose:
+      - "81"
+      - "1521"
+    volumes:
+      - "~/h2db:/opt/h2-data"
