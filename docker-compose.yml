@@ -1,4 +1,3 @@
-version: 0.0
 services:
   h2-db:
     image: oscarfonts/h2
