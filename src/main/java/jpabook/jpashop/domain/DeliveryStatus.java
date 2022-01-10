@@ -1,4 +1,5 @@
 package jpabook.jpashop.domain;
 
-public enum DeliveryStauts {
+public enum DeliveryStatus {
+	COMP
 }

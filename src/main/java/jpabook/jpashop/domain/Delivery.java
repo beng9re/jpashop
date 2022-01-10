@@ -28,5 +28,5 @@ public class Delivery {
 	private Address address;
 
 	@Enumerated(EnumType.STRING)
-	private DeliveryStauts stauts; //REDY,COM
+	private DeliveryStatus stauts; //REDY,COM
 }
