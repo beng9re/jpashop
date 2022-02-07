@@ -29,6 +29,10 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // 젝슨 하이버네이트 프록시를 해결하기 위한 버전
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
+
 }
 
 test {

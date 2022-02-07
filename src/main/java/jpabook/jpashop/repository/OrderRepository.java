@@ -32,9 +32,9 @@ public class OrderRepository {
 		return em.find(Order.class,id);
 	}
 
-	public List<Order> findAll(OrderSearch orderSearch) {
-		return new ArrayList<>();
-	}
+	// public List<Order> findAll(OrderSearch orderSearch) {
+	// 	return new ArrayList<>();
+	// }
 
 	public List<Order> findAllbyCriteria(OrderSearch orderSearch) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -58,5 +58,20 @@ public class OrderRepository {
 		TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000);
 
 		return query.getResultList();
+	}
+
+
+	public List<Order> findAllWithMemberDelivery() {
+		List<Order> orders = em.createQuery(
+			"select o from Order o "
+				+ "join fetch o.member m "
+				+ "join fetch o.delivery"
+			,Order.class
+		).getResultList();
+
+		return orders;
+	}
+
+
 	}
 }
