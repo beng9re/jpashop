@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,8 +35,10 @@ public class Order {
 	@Column(name = "order_id")
 	private Long id;
 
+	//양방향 연관관계에서의 무한루프
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
+	@JsonIgnore
 	private Member member;
 
 	//오더가 저장될때 퍼시스턴스 해줌
