@@ -61,6 +61,7 @@ public class OrderRepository {
 	}
 
 
+
 	public List<Order> findAllWithMemberDelivery() {
 		List<Order> orders = em.createQuery(
 			"select o from Order o "
@@ -71,8 +72,23 @@ public class OrderRepository {
 
 		return orders;
 	}
+	public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+		List<Order> orders = em.createQuery(
+			"select o from Order o "
+				+ "join fetch o.member m "
+				+ "join fetch o.delivery"
+			,Order.class
+			).setFirstResult(offset)
+			.setMaxResults(limit)
+			.getResultList();
+
+		return orders;
+	}
+
+
 
 	public List<Order> findAllWithItem() {
+		// 데이터가 하나의 로우의 조인은 페치 조인 사용
 		return em.createQuery(
 			"select distinct o from  Order o"
 				+ " join fetch o.member m"

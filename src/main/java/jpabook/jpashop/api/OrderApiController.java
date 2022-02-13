@@ -1,10 +1,12 @@
 package jpabook.jpashop.api;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jpabook.jpashop.domain.Address;
@@ -13,6 +15,9 @@ import jpabook.jpashop.domain.OrderItem;
 import jpabook.jpashop.domain.OrderStatus;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
+import jpabook.jpashop.repository.order.query.OrderFlatDto;
+import jpabook.jpashop.repository.order.query.OrderQueryDto;
+import jpabook.jpashop.repository.order.query.OrderQueryRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class OrderApiController {
 
 	private final OrderRepository orderRepository;
+	private final OrderQueryRepository orderQueryRepository;
 
 	@GetMapping("/api/v1/orders")
 	public List<Order> orderV1() {
@@ -51,6 +57,37 @@ public class OrderApiController {
 			.collect(Collectors.toList());
 	}
 
+
+	@GetMapping("/api/v3.1/orders")
+	public List<OrderDto> orderV3_page(
+		@RequestParam(value = "offset", defaultValue = "0") int offset,
+		@RequestParam(value = "limit", defaultValue = "100") int limit
+		) {
+
+		return orderRepository.findAllWithMemberDelivery(offset,limit)
+			.stream().map(OrderDto::new)
+			.collect(Collectors.toList());
+	}
+
+	//JPA에서 DTO 직접조회
+	@GetMapping("/api/v4/orders")
+	public List<OrderQueryDto> orderV4() {
+		return orderQueryRepository.findOrderQueryDtos();
+	}
+
+	@GetMapping("/api/v5/orders")
+	public List<OrderQueryDto> orderV5() {
+		return orderQueryRepository.findAllByDto_optimization();
+	}
+
+	@GetMapping("/api/v6/orders")
+	public List<OrderQueryDto> orderV6() {
+
+		List<OrderFlatDto> orderAllByDto_flat = orderQueryRepository.findAllByDto_falt();
+		//TODO : 직접 DTO로 매칭하는 것을 만들어준다
+
+		return new ArrayList<>();
+	}
 	@Getter
 	static class OrderDto {
 		private Long orderId;

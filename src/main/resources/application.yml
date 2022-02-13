@@ -10,6 +10,7 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
+        default_batch_fetch_size: 100 #배치사이즈
         #show_sql: true #SQL ?? #???? ??
         format_sql: true #Formmatting
 
